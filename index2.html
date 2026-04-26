@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sudeep Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --text:#ffffff;
+  --accent:#22c55e;
+}
+
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  color:var(--text);
+  overflow-x:hidden;
+  background:url('https://images.unsplash.com/photo-1501785888041-af3ef285b470') no-repeat center/cover;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.65);
+  z-index:-1;
+}
+
+/* HEADER FIXED & SOLID */
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px;
+  background:#020617;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+nav a{
+  margin:0 10px;
+  color:var(--accent);
+  text-decoration:none;
+}
+
+button{
+  cursor:pointer;
+  border:none;
+  border-radius:8px;
+  background:var(--accent);
+  color:white;
+}
+
+/* HERO */
+.hero{
+  text-align:center;
+  padding:120px 20px;
+}
+
+.hero h2{font-size:42px;}
+
+.typing{
+  font-size:20px;
+  color:#a7f3d0;
+}
+
+/* SECTION */
+section{
+  max-width:1100px;
+  margin:auto;
+  padding:50px 20px;
+}
+
+/* CARD */
+.card{
+  background:rgba(0,0,0,0.6);
+  padding:25px;
+  border-radius:16px;
+  backdrop-filter:blur(6px);
+  box-shadow:0 8px 25px rgba(0,0,0,0.5);
+}
+
+/* PROJECT GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:25px;
+}
+
+img{
+  width:100%;
+  border-radius:10px;
+  margin-top:10px;
+}
+
+/* SKILLS */
+.skill{margin:10px 0;}
+.skill-bar{
+  height:8px;
+  background:#1e293b;
+  border-radius:10px;
+}
+.skill-fill{
+  height:8px;
+  background:var(--accent);
+  border-radius:10px;
+}
+
+/* PROJECT FORM */
+.project-form{
+  display:flex;
+  flex-wrap:wrap;
+  gap:15px;
+  align-items:center;
+}
+
+.project-form input,
+.project-form textarea{
+  flex:1;
+  min-width:180px;
+  height:42px;
+  padding:10px;
+  border-radius:8px;
+  border:none;
+}
+
+.project-form textarea{
+  resize:none;
+}
+
+/* RESUME */
+.resume-section{
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+.resume-box{
+  flex:1;
+  min-width:250px;
+  text-align:center;
+}
+
+footer{
+  text-align:center;
+  padding:20px;
+  background:#020617;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>SG Portfolio</h1>
+<nav>
+<a href="#about">About</a>
+<a href="#skills">Skills</a>
+<a href="#projects">Projects</a>
+<a href="#contact">Contact</a>
+<a href="#resume">Resume</a>
+</nav>
+</header>
+
+<section class="hero">
+<h2>Hello, I'm Sudeep 🚀</h2>
+<p class="typing" id="typing"></p>
+</section>
+
+<section id="about">
+<h2>About Me</h2>
+<div class="card">
+<p>
+My name is Sudeep Garnaik, and I am a Computer Science graduate passionate about Data Science, SQL, and Power BI. I focus on analyzing data and creating meaningful insights while learning and growing professionally.
+</p>
+</div>
+</section>
+
+<section id="skills">
+<h2>Skills</h2>
+<div class="card">
+<div class="skill">SQL<div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
+<div class="skill">Power BI<div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+<div class="skill">Python<div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+</div>
+</section>
+
+<section id="projects">
+<h2>Projects</h2>
+<div id="projectList" class="grid"></div>
+
+<div class="card project-form">
+<input id="title" placeholder="Project Title">
+<textarea id="desc" placeholder="Description"></textarea>
+<input type="file" id="image">
+<button onclick="addProject()" style="height:42px;padding:0 20px;">Add</button>
+</div>
+
+</section>
+
+<section id="contact">
+<h2>Contact</h2>
+<div class="card">
+<p>Email: sudeepgarnaik2003@email.com</p>
+</div>
+</section>
+
+<section id="resume">
+<h2>Resume</h2>
+<div class="resume-section">
+
+<div class="resume-box card">
+<h3>Upload Resume</h3>
+<input type="file" id="resumeUpload" accept=".pdf">
+</div>
+
+<div class="resume-box card">
+<h3>Download Resume</h3>
+<button onclick="downloadResume()">Download</button>
+</div>
+
+</div>
+</section>
+
+<footer>© 2026 Sudeep Garnaik</footer>
+
+<script>
+// Typing Effect
+const text="Data Scientist | SQL Developer | Power BI Analyst";
+let i=0;
+function typing(){
+  if(i<text.length){
+    document.getElementById("typing").innerHTML+=text.charAt(i);
+    i++;
+    setTimeout(typing,50);
+  }
+}
+typing();
+
+// Resume
+let uploadedResume=null;
+document.getElementById('resumeUpload').addEventListener('change',function(){
+  uploadedResume=this.files[0];
+});
+
+function downloadResume(){
+  if(!uploadedResume){alert('Upload resume first');return;}
+  const url=URL.createObjectURL(uploadedResume);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=uploadedResume.name;
+  a.click();
+}
+
+// Projects
+function addProject(){
+  const title=document.getElementById('title').value;
+  const desc=document.getElementById('desc').value;
+  const file=document.getElementById('image').files[0];
+
+  if(!title||!desc){alert('Fill all fields');return;}
+
+  const reader=new FileReader();
+  reader.onload=function(){
+    const div=document.createElement('div');
+    div.className='card';
+    div.innerHTML=`<h3>${title}</h3><p>${desc}</p>${file?`<img src="${reader.result}">`:''}`;
+    document.getElementById('projectList').appendChild(div);
+  }
+
+  if(file){reader.readAsDataURL(file);} else {reader.onload();}
+
+  document.getElementById('title').value='';
+  document.getElementById('desc').value='';
+}
+</script>
+
+</body>
+</html>
