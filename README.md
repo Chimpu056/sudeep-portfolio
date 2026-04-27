@@ -1,1 +1,1 @@
-# sudeep garnaik-portfolio
+# Sudeep Garnaik Portfolio
